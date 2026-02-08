@@ -398,7 +398,7 @@ h1, h2, .poem-title {
   margin-bottom: 0.5rem;
 }
 
-/* Three separate love cards on left/right sides (center stays for shayari & content) */
+/* Three separate love cards on left/right – animated (font size, bold, color, running effect) */
 .page-love-cards {
   position: absolute;
   left: 0;
@@ -410,23 +410,56 @@ h1, h2, .poem-title {
 }
 .page-love-card {
   position: absolute;
-  max-width: 180px;
-  padding: 1rem 1.15rem;
+  max-width: 200px;
+  padding: 1.1rem 1.25rem;
   border-radius: 14px;
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(196, 30, 58, 0.35);
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffd4dc;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(196, 30, 58, 0.4);
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #ff8fa3;
   text-align: center;
-  line-height: 1.35;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  line-height: 1.4;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  overflow: hidden;
 }
-.page-love-card.card-1 { left: 1.5rem; top: 22%; }
-.page-love-card.card-2 { left: 1.5rem; top: 48%; transform: translateY(-50%); }
-.page-love-card.card-3 { right: 1.5rem; top: 42%; transform: translateY(-50%); }
+.page-love-card::before {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: cardShine 3s ease-in-out infinite;
+}
+.page-love-card.card-1 { left: 1.5rem; top: 22%; animation: cardPulse1 2.5s ease-in-out infinite, cardColor 4s ease-in-out infinite; }
+.page-love-card.card-1::before { animation-delay: 0.5s; }
+@keyframes cardPulse1 {
+  0%, 100% { transform: scale(1); font-size: 1.05rem; font-weight: 700; }
+  50% { transform: scale(1.05); font-size: 1.18rem; font-weight: 800; }
+}
+.page-love-card.card-2 { left: 1.5rem; top: 48%; transform: translateY(-50%); animation: cardPulse2 2.5s ease-in-out infinite, cardColor 4s ease-in-out infinite; }
+.page-love-card.card-2::before { animation-delay: 1s; }
+@keyframes cardPulse2 {
+  0%, 100% { transform: translateY(-50%) scale(1); font-size: 1.05rem; font-weight: 700; }
+  50% { transform: translateY(-50%) scale(1.05); font-size: 1.18rem; font-weight: 800; }
+}
+.page-love-card.card-3 { right: 1.5rem; top: 42%; transform: translateY(-50%); animation: cardPulse2 2.5s ease-in-out infinite, cardColor 4s ease-in-out infinite; }
+.page-love-card.card-3::before { animation-delay: 1.5s; }
+@keyframes cardColor {
+  0%, 100% { color: #ff8fa3; border-color: rgba(196, 30, 58, 0.4); }
+  33% { color: #ffb3c1; border-color: rgba(255, 107, 138, 0.6); }
+  66% { color: #ff6b8a; border-color: rgba(230, 57, 80, 0.5); }
+}
+@keyframes cardShine {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
 @media (max-width: 900px) {
-  .page-love-card { max-width: 150px; padding: 0.85rem 1rem; font-size: 0.9rem; }
+  .page-love-card { max-width: 165px; padding: 0.9rem 1rem; font-size: 0.98rem; }
   .page-love-card.card-1 { left: 1rem; top: 18%; }
   .page-love-card.card-2 { left: 1rem; top: 50%; }
   .page-love-card.card-3 { right: 1rem; top: 78%; }
