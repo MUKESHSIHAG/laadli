@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You 💕 — Will you be my Valentine?</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .btn-no-wrapper { position: relative; min-width: 120px; min-height: 50px; }
+    #btnNo { position: relative; transition: left 0.2s ease-out, top 0.2s ease-out; }
+    #btnNo.run-away { position: fixed; left: 50%; top: 50%; }
+    .home-scroll { max-width: 600px; margin: 0 auto; }
+  </style>
+</head>
+<body class="has-footer">
+  <div class="hearts-bg">
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+  </div>
+  <span class="heart-deco tl">❤</span>
+  <span class="heart-deco tr">💕</span>
+  <span class="heart-deco bl">💕</span>
+  <span class="heart-deco br">❤</span>
+
+  <main class="page">
+    <p class="praise-float tl">I love you 💕</p>
+    <p class="praise-float tr">You're my always</p>
+    <p class="praise-float bl">Thanks for being mine</p>
+    <p class="praise-float br">My forever 💖</p>
+    <div class="home-hero">
+      <h1 class="hero-title">For You, Always 💕</h1>
+      <p class="handwriting-line">You mean everything to me.</p>
+      <p class="handwriting-line delay-1">There's something I've been wanting to ask...</p>
+    </div>
+
+    <div class="memory-grid" style="margin:1rem auto;">
+      <img src="photos/43165.JPEG" alt="Us">
+      <img src="photos/43667.JPEG" alt="Us">
+      <img src="photos/FullSizeRender 4.jpg" alt="Us">
+      <img src="photos/IMG_6943.jpg" alt="Us">
+    </div>
+
+    <div class="home-shayari-wrap">
+      <div class="shayari-block">
+        <p class="urdu">होश वालों को ख़बर क्या बे-ख़ुदी क्या चीज़ है<br>इश्क़ कीजिए फिर समझिए ज़िंदगी क्या चीज़ है</p>
+        <p class="transliteration">Hosh walon ko khabar kya be-khudi kya cheez hai / Ishq kijiye phir samjhiye zindagi kya cheez hai</p>
+      </div>
+      <div class="shayari-block">
+        <p class="urdu">इश्क़ पर ज़ोर नहीं है ये वो आतिश 'ग़ालिब'<br>कि लगाए न लगे और बुझाए न बने</p>
+        <p class="transliteration">Ishq par zor nahin hai ye wo aatish 'Ghalib' / Ki laga'e na lage aur bujha'e na bane</p>
+      </div>
+    </div>
+
+    <p class="handwriting-line delay-2">So... will you be my Valentine?</p>
+    <h2 class="section-title" style="margin: 2rem 0 1rem;">Will you be my forever? 💕</h2>
+    <div class="buttons-row">
+      <a href="yes.html" class="btn-valentine btn-yes">Yes! Always 💖</a>
+      <div class="btn-no-wrapper" id="noWrapper">
+        <button type="button" class="btn-valentine btn-no" id="btnNo">
+          <span class="no-hover-msg" id="noHoverMsg">You can't do that</span>
+          No
+        </button>
+      </div>
+    </div>
+    <div class="page-love-cards">
+      <div class="page-love-card card-1">Thanks for choosing me.</div>
+      <div class="page-love-card card-2">I love you so much.</div>
+      <div class="page-love-card card-3">You are the best person in this universe.</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="valentine-ask">Will you be my Valentine? 💕</p>
+    <p>Made with love, for you.</p>
+  </footer>
+
+  <div class="popup-overlay" id="popup">
+    <div class="popup-box">
+      <h3>😂 Nice try!</h3>
+      <p>You can't say no now — you're trapped with me forever! There's only one way out... click Yes! 💕</p>
+      <button type="button" class="btn-valentine btn-yes" id="closePopup">Okay, Yes then! 💖</button>
+    </div>
+  </div>
+
+  <script>
+    const btnNo = document.getElementById('btnNo');
+    const noHoverMsg = document.getElementById('noHoverMsg');
+    const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('closePopup');
+    var runAwayTimer = null;
+    var msgIndex = 0;
+    var noHoverMessages = ["You can't do that", "You're mine now", "Nice try! 💕", "No take-backs!", "You are forever Mine!"];
+    function moveNoButton() {
+      btnNo.classList.add('run-away');
+      const btn = btnNo.getBoundingClientRect();
+      const padding = 24;
+      btnNo.style.left = (padding + Math.random() * (window.innerWidth - btn.width - padding * 2)) + 'px';
+      btnNo.style.top = (padding + Math.random() * (window.innerHeight - btn.height - padding * 2)) + 'px';
+    }
+    btnNo.addEventListener('mouseenter', function() {
+      noHoverMsg.textContent = noHoverMessages[msgIndex];
+      msgIndex = (msgIndex + 1) % noHoverMessages.length;
+      if (runAwayTimer) clearTimeout(runAwayTimer);
+      runAwayTimer = setTimeout(moveNoButton, 500);
+    });
+    btnNo.addEventListener('mouseleave', function() {
+      if (runAwayTimer) { clearTimeout(runAwayTimer); runAwayTimer = null; }
+    });
+    btnNo.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (runAwayTimer) clearTimeout(runAwayTimer);
+      popup.classList.add('show');
+    });
+    closePopup.addEventListener('click', function() { popup.classList.remove('show'); window.location.href = 'yes.html'; });
+    popup.addEventListener('click', function(e) { if (e.target === popup) popup.classList.remove('show'); });
+  </script>
+</body>
+</html>

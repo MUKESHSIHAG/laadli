@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Quiz 💕 — How well do you know us?</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .quiz-wrap { max-width: 520px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
+    .quiz-title { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .quiz-subtitle { font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+    .quiz-question { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #fff; }
+    .quiz-photo { width: 100%; max-width: 280px; height: 200px; object-fit: cover; border-radius: 16px; border: 4px solid var(--valentine-pink); margin: 1rem auto; display: block; box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.25rem; }
+    .quiz-opt { padding: 1rem 1.25rem; font-size: 1.1rem; border-radius: 14px; border: 3px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; transition: all 0.3s ease; text-align: left; font-family: inherit; }
+    .quiz-opt:hover { border-color: var(--valentine-pink); background: rgba(255,107,138,0.2); transform: scale(1.02); }
+    .quiz-opt.correct { border-color: #22c55e; background: rgba(34,197,94,0.25); animation: correctPop 0.5s ease; pointer-events: none; }
+    .quiz-opt.wrong { border-color: #ef4444; background: rgba(239,68,68,0.2); animation: wrongShake 0.5s ease; pointer-events: none; }
+    .quiz-opt:disabled { cursor: not-allowed; opacity: 0.8; }
+    @keyframes correctPop { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    @keyframes wrongShake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+    .quiz-feedback { margin-top: 1.25rem; font-size: 1.2rem; font-weight: 600; min-height: 2rem; }
+    .quiz-feedback.correct { color: #4ade80; animation: feedbackIn 0.4s ease; }
+    .quiz-feedback.wrong { color: #f87171; animation: feedbackIn 0.4s ease; }
+    @keyframes feedbackIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .quiz-next { margin-top: 1.5rem; }
+    .quiz-progress { font-size: 0.95rem; color: var(--valentine-pink); margin-bottom: 1rem; }
+    .quiz-screen { display: none; padding: 2rem; text-align: center; animation: fadeInUp 0.5s ease; }
+    .quiz-screen.active { display: block; }
+    .quiz-start-btn { font-size: 1.3rem; padding: 1rem 2rem; margin-top: 1rem; }
+    .quiz-end-score { font-size: 3rem; color: var(--valentine-pink); margin: 1rem 0; animation: pulse 1s ease infinite; }
+    .confetti-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: hidden; }
+    .confetti { position: absolute; width: 10px; height: 10px; animation: confettiFall 2s ease-out forwards; }
+    .confetti.heart { font-size: 20px; width: auto; height: auto; }
+    .quiz-wrong-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center; z-index: 200; }
+    .quiz-wrong-popup.show { display: flex; }
+    .quiz-wrong-box { background: linear-gradient(145deg, #1a0a0e, #2d0f14); border: 3px solid #ef4444; border-radius: 24px; padding: 2rem; max-width: 320px; text-align: center; animation: wrongPopBounce 0.6s ease; }
+    .quiz-wrong-emoji { font-size: 4rem; display: block; margin-bottom: 0.5rem; animation: wrongWobble 0.5s ease 0.2s; }
+    .quiz-wrong-title { font-size: 1.4rem; color: #f87171; margin-bottom: 0.5rem; font-weight: 700; }
+    .quiz-wrong-msg { font-size: 1rem; color: #f8e0e5; margin-bottom: 1rem; }
+    .quiz-wrong-box .btn-valentine { margin-top: 0.5rem; }
+    @keyframes wrongPopBounce { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.08); } 70% { transform: scale(0.95); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes wrongWobble { 0%,100% { transform: rotate(-5deg); } 25% { transform: rotate(8deg); } 50% { transform: rotate(-8deg); } 75% { transform: rotate(5deg); } }
+  </style>
+</head>
+<body class="has-footer">
+  <div class="hearts-bg">
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+  </div>
+  <span class="heart-deco tl">❤</span>
+  <span class="heart-deco tr">💕</span>
+
+  <main class="page">
+    <div class="quiz-wrap">
+      <!-- Start screen -->
+      <div class="quiz-screen active" id="screenStart">
+        <h1 class="quiz-title">🎮 How well do you know us?</h1>
+        <p class="quiz-subtitle">Let's play a quick game — our dates, our places, our moments.</p>
+        <p style="font-size:1.1rem; margin-bottom:1rem;">Ready?</p>
+        <button type="button" class="btn-valentine btn-yes quiz-start-btn" id="btnStart">Let's play! 💕</button>
+      </div>
+
+      <!-- Question screens (filled by JS) -->
+      <div class="quiz-screen" id="screenQuestion">
+        <p class="quiz-progress" id="progressText">Question 1 of 5</p>
+        <p class="quiz-question" id="questionText"></p>
+        <img class="quiz-photo" id="questionPhoto" alt="" style="display:none;">
+        <div class="quiz-options" id="optionsWrap"></div>
+        <p class="quiz-feedback" id="feedback"></p>
+        <button type="button" class="btn-valentine btn-next quiz-next" id="btnNext" style="display:none;">Next →</button>
+      </div>
+
+      <!-- End screen -->
+      <div class="quiz-screen" id="screenEnd">
+        <h1 class="quiz-title">🎉 You did it!</h1>
+        <p class="quiz-end-score" id="finalScore">0 / 5</p>
+        <p class="quiz-subtitle" id="endMessage">You know us so well! 💕</p>
+        <a href="first-met.html" class="btn-valentine btn-next" style="margin-top:1rem;">Continue our story →</a>
+      </div>
+    </div>
+    <div class="page-love-cards">
+      <div class="page-love-card card-1">Thanks for choosing me.</div>
+      <div class="page-love-card card-2">You mean everything to me.</div>
+      <div class="page-love-card card-3">You're one in a million.</div>
+    </div>
+  </main>
+
+  <div id="confettiWrap" class="confetti-wrap" style="display:none;"></div>
+
+  <div class="quiz-wrong-popup" id="wrongPopup">
+    <div class="quiz-wrong-box">
+      <span class="quiz-wrong-emoji" id="wrongEmoji">😂</span>
+      <p class="quiz-wrong-title" id="wrongTitle">Nope!</p>
+      <p class="quiz-wrong-msg" id="wrongMsg">It was: <strong id="wrongCorrect"></strong></p>
+      <button type="button" class="btn-valentine btn-yes" id="wrongClose">OK, got it! 💕</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p class="valentine-ask">Will you be my Valentine? 💕</p>
+    <p>Our little quiz.</p>
+  </footer>
+
+  <script>
+    (function() {
+      var questions = [
+        {
+          q: "When did we first meet in person?",
+          photo: null,
+          options: ["14 February", "16 March", "20 May", "10 June"],
+          correct: 1
+        },
+        {
+          q: "When did we go to Mauritius?",
+          photo: null,
+          options: ["15 August", "22 July", "8 September", "1 October"],
+          correct: 2
+        },
+        {
+          q: "Where was this photo taken?",
+          photo: "photos/FullSizeRender 4.jpg",
+          options: ["Mauritius", "Goa", "Delhi", "Mumbai"],
+          correct: 1
+        },
+        {
+          q: "Where was this photo taken?",
+          photo: "photos/IMG_6943.jpg",
+          options: ["Goa", "Mauritius", "Singapore", "Dubai"],
+          correct: 1
+        },
+        {
+          q: "What did I give you at our dinner in Mauritius?",
+          photo: null,
+          options: ["A ring", "A flower", "Chocolate", "A card"],
+          correct: 1
+        }
+      ];
+
+      var current = 0;
+      var score = 0;
+      var answered = false;
+
+      var screenStart = document.getElementById('screenStart');
+      var screenQuestion = document.getElementById('screenQuestion');
+      var screenEnd = document.getElementById('screenEnd');
+      var progressText = document.getElementById('progressText');
+      var questionText = document.getElementById('questionText');
+      var questionPhoto = document.getElementById('questionPhoto');
+      var optionsWrap = document.getElementById('optionsWrap');
+      var feedback = document.getElementById('feedback');
+      var btnNext = document.getElementById('btnNext');
+      var finalScore = document.getElementById('finalScore');
+      var endMessage = document.getElementById('endMessage');
+      var confettiWrap = document.getElementById('confettiWrap');
+
+      document.getElementById('btnStart').addEventListener('click', function() {
+        screenStart.classList.remove('active');
+        screenQuestion.classList.add('active');
+        current = 0;
+        score = 0;
+        showQuestion();
+      });
+
+      function showQuestion() {
+        answered = false;
+        var q = questions[current];
+        progressText.textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+        questionText.textContent = q.q;
+        if (q.photo) {
+          questionPhoto.src = q.photo;
+          questionPhoto.style.display = 'block';
+        } else {
+          questionPhoto.style.display = 'none';
+        }
+        feedback.textContent = '';
+        feedback.className = 'quiz-feedback';
+        btnNext.style.display = 'none';
+
+        optionsWrap.innerHTML = '';
+        q.options.forEach(function(opt, i) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'quiz-opt';
+          btn.textContent = opt;
+          btn.dataset.index = i;
+          btn.addEventListener('click', function() { choose(i); });
+          optionsWrap.appendChild(btn);
+        });
+      }
+
+      function choose(choice) {
+        if (answered) return;
+        answered = true;
+        var q = questions[current];
+        var opts = optionsWrap.querySelectorAll('.quiz-opt');
+        opts.forEach(function(o) { o.disabled = true; });
+        if (choice === q.correct) {
+          opts[choice].classList.add('correct');
+          feedback.textContent = '✅ Correct!';
+          feedback.className = 'quiz-feedback correct';
+          score++;
+          dropConfetti();
+        } else {
+          opts[choice].classList.add('wrong');
+          opts[q.correct].classList.add('correct');
+          feedback.textContent = '❌ Oops! It was: ' + q.options[q.correct];
+          feedback.className = 'quiz-feedback wrong';
+          showWrongPopup(q.options[q.correct]);
+        }
+        btnNext.style.display = 'inline-block';
+      }
+
+      var wrongTitles = ['Nope! 😂', 'Wrong turn!', 'Brain fart? 🤭', 'Oopsie!', 'Not quite! 🎯', 'Nice try though!'];
+      var wrongEmojis = ['😂', '🤦', '🙈', '😅', '🎯', '❌'];
+      function showWrongPopup(correctAnswer) {
+        document.getElementById('wrongTitle').textContent = wrongTitles[Math.floor(Math.random() * wrongTitles.length)];
+        document.getElementById('wrongEmoji').textContent = wrongEmojis[Math.floor(Math.random() * wrongEmojis.length)];
+        document.getElementById('wrongCorrect').textContent = correctAnswer;
+        document.getElementById('wrongPopup').classList.add('show');
+      }
+      document.getElementById('wrongClose').addEventListener('click', function() {
+        document.getElementById('wrongPopup').classList.remove('show');
+      });
+      document.getElementById('wrongPopup').addEventListener('click', function(e) {
+        if (e.target.id === 'wrongPopup') document.getElementById('wrongPopup').classList.remove('show');
+      });
+
+      function dropConfetti() {
+        confettiWrap.style.display = 'block';
+        confettiWrap.innerHTML = '';
+        var chars = ['❤', '💕', '💖', '🌸', '✨'];
+        for (var i = 0; i < 25; i++) {
+          var el = document.createElement('span');
+          el.className = 'confetti ' + (Math.random() > 0.5 ? 'heart' : '');
+          el.textContent = chars[Math.floor(Math.random() * chars.length)];
+          el.style.left = Math.random() * 100 + '%';
+          el.style.animationDelay = Math.random() * 0.5 + 's';
+          el.style.color = ['#ff6b8a', '#c41e3a', '#fff', '#ff8fa3'][Math.floor(Math.random() * 4)];
+          confettiWrap.appendChild(el);
+        }
+        setTimeout(function() { confettiWrap.style.display = 'none'; confettiWrap.innerHTML = ''; }, 2500);
+      }
+
+      btnNext.addEventListener('click', function() {
+        current++;
+        if (current >= questions.length) {
+          screenQuestion.classList.remove('active');
+          screenEnd.classList.add('active');
+          finalScore.textContent = score + ' / ' + questions.length;
+          endMessage.textContent = score === questions.length ? "You know us so well! 💕" : "Let's make more memories! 💕";
+          if (score >= questions.length - 1) dropConfetti();
+        } else {
+          showQuestion();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

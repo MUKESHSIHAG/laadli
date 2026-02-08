@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>With You 💕</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .years-big { font-size: 2.2rem; color: var(--valentine-pink); margin: 0.5rem 0; }
+  </style>
+</head>
+<body class="has-footer">
+  <div class="hearts-bg">
+    <span class="heart-float">❤</span><span class="heart-float">❤</span><span class="heart-float">❤</span>
+  </div>
+  <main class="page">
+    <span class="heart-deco tl">❤</span>
+    <span class="heart-deco tr">💕</span>
+    <h2 class="section-title">More than 5 years</h2>
+    <p class="years-big">5+ years of you & me 💕</p>
+    <div class="memory-grid" style="margin:1rem auto;">
+      <img src="photos/IMG_6943.jpg" alt="Us">
+      <img src="photos/FullSizeRender 4.jpg" alt="Us">
+      <img src="photos/IMG_6764.jpg" alt="Us">
+      <img src="photos/IMG_7027.jpg" alt="Us">
+    </div>
+    <div class="shayari-block">
+      <p class="urdu">मोहब्बत में नहीं है फर्क़ जीने और मरने का<br>उसी को देख कर जीते हैं जिस काफ़िर पे दम निकले</p>
+      <p class="transliteration">Mohabbat mein nahin hai farq jine aur marne ka / Usi ko dekh kar jite hain jis kafir pe dam nikle</p>
+    </div>
+    <p style="margin:1.5rem 0 0.5rem; font-size:1.05rem;">Would you choose me again? 😊</p>
+    <div class="buttons-row" style="margin-top:0.5rem;">
+      <a href="memories.html" class="btn-valentine btn-yes">Of course! 💕</a>
+      <div class="btn-no-wrapper" id="noWrapper2" style="min-width:100px; min-height:50px;">
+        <button type="button" class="btn-valentine btn-no" id="btnNo2">
+          <span class="no-hover-msg" id="noHoverMsg2">No take-backs!</span>
+          Nope
+        </button>
+      </div>
+    </div>
+    <div class="popup-overlay" id="popup2">
+      <div class="popup-box">
+        <h3>😏 Too late!</h3>
+        <p>You're already stuck with me for 5+ years. No take-backs! Click "Of course!" and let's go. 💕</p>
+        <button type="button" class="btn-valentine btn-yes" id="closePopup2">Of course! 💖</button>
+      </div>
+    </div>
+    <div class="page-love-cards">
+      <div class="page-love-card card-1">Thanks for choosing me.</div>
+      <div class="page-love-card card-2">I'm so lucky to have you.</div>
+      <div class="page-love-card card-3">You're the most beautiful person I know.</div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p class="valentine-ask">Will you be my Valentine? 💕</p>
+    <p>Always you.</p>
+  </footer>
+  <script>
+    (function() {
+      var btn = document.getElementById('btnNo2');
+      var msgEl = document.getElementById('noHoverMsg2');
+      var popup = document.getElementById('popup2');
+      var closeBtn = document.getElementById('closePopup2');
+      var runTimer = null;
+      var msgIndex = 0;
+      var noHoverMessages = ["No take-backs!", "You're stuck with me!", "Always. 💕", "Nice try! 💕"];
+      function move() {
+        btn.classList.add('run-away');
+        var pad = 24;
+        var w = window.innerWidth - btn.offsetWidth - pad*2;
+        var h = window.innerHeight - btn.offsetHeight - pad*2;
+        btn.style.left = (pad + Math.random() * w) + 'px';
+        btn.style.top = (pad + Math.random() * h) + 'px';
+      }
+      btn.addEventListener('mouseenter', function() {
+        msgEl.textContent = noHoverMessages[msgIndex];
+        msgIndex = (msgIndex + 1) % noHoverMessages.length;
+        if (runTimer) clearTimeout(runTimer);
+        runTimer = setTimeout(move, 500);
+      });
+      btn.addEventListener('mouseleave', function() {
+        if (runTimer) { clearTimeout(runTimer); runTimer = null; }
+      });
+      btn.addEventListener('click', function(e) { e.preventDefault(); if (runTimer) clearTimeout(runTimer); popup.classList.add('show'); });
+      closeBtn.addEventListener('click', function() { popup.classList.remove('show'); window.location.href = 'memories.html'; });
+      popup.addEventListener('click', function(e) { if (e.target === popup) popup.classList.remove('show'); });
+    })();
+  </script>
+</body>
+</html>

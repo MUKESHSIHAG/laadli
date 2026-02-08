@@ -1,0 +1,704 @@
+/* Valentine Theme - Red, Black, White */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap');
+
+:root {
+  --valentine-red: #c41e3a;
+  --valentine-red-bright: #e63950;
+  --valentine-dark: #1a0a0e;
+  --valentine-black: #0d0507;
+  --valentine-white: #fff5f7;
+  --valentine-pink: #ff6b8a;
+  --valentine-pink-bright: #ff8fa3;
+  --valentine-gold: #d4af37;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: linear-gradient(135deg, var(--valentine-black) 0%, #1a0a0e 30%, #2d0f14 50%, #1f0b10 70%, var(--valentine-dark) 100%);
+  background-color: #0d0507;
+  color: var(--valentine-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, .poem-title {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Floating hearts background */
+.hearts-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heart-float {
+  position: absolute;
+  font-size: 26px;
+  opacity: 0.35;
+  animation: floatHeart 14s infinite ease-in-out;
+  color: var(--valentine-pink);
+  text-shadow: 0 0 12px rgba(255, 107, 138, 0.4);
+}
+
+.heart-float:nth-child(1) { left: 5%; animation-delay: 0s; }
+.heart-float:nth-child(2) { left: 18%; animation-delay: 2s; }
+.heart-float:nth-child(3) { left: 32%; animation-delay: 4s; }
+.heart-float:nth-child(4) { left: 48%; animation-delay: 1s; }
+.heart-float:nth-child(5) { left: 62%; animation-delay: 3s; }
+.heart-float:nth-child(6) { left: 75%; animation-delay: 5s; }
+.heart-float:nth-child(7) { left: 88%; animation-delay: 2.5s; }
+.heart-float:nth-child(8) { left: 25%; animation-delay: 1.5s; }
+.heart-float:nth-child(9) { left: 70%; animation-delay: 4.5s; }
+
+@keyframes floatHeart {
+  0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+/* Corner / decorative hearts */
+.heart-deco {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 40px;
+  opacity: 0.25;
+  animation: heartPulse 2.5s ease-in-out infinite;
+}
+.heart-deco.tl { top: 20px; left: 20px; animation-delay: 0s; }
+.heart-deco.tr { top: 20px; right: 20px; animation-delay: 0.5s; }
+.heart-deco.bl { bottom: 20px; left: 20px; animation-delay: 1s; }
+.heart-deco.br { bottom: 20px; right: 20px; animation-delay: 1.5s; }
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); opacity: 0.25; }
+  50% { transform: scale(1.15); opacity: 0.45; }
+}
+
+/* Quiz confetti */
+.confetti-wrap .confetti {
+  position: absolute;
+  top: -30px;
+  animation: confettiFall 2.5s ease-out forwards;
+  pointer-events: none;
+}
+.confetti-wrap .confetti.heart {
+  font-size: 22px;
+  text-shadow: 0 0 8px rgba(255,107,138,0.6);
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Page container */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+.page > *:not(.page-love-cards) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Button row for Yes/No */
+.buttons-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+/* Buttons */
+.btn-valentine {
+  font-family: 'Quicksand', sans-serif;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, var(--valentine-red), var(--valentine-pink));
+  color: white;
+  box-shadow: 0 4px 20px rgba(196, 30, 58, 0.5);
+}
+
+.btn-yes:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 30px rgba(196, 30, 58, 0.7);
+}
+
+.btn-no-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-no {
+  background: linear-gradient(135deg, #333, #555);
+  color: #ccc;
+  position: relative;
+  transition: none;
+  overflow: visible;
+}
+.btn-no .no-hover-msg {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  white-space: normal;
+  max-width: 220px;
+  text-align: center;
+}
+/* Show message on hover - every time cursor is over No button */
+.btn-no:hover .no-hover-msg {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+/* Running away - handled by JS */
+.btn-no.run-away {
+  position: fixed;
+  transition: left 0.25s ease-out, top 0.25s ease-out;
+}
+
+/* Poem / shayri boxes */
+.poem-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(196, 30, 58, 0.3);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 560px;
+  margin: 2rem auto;
+  animation: fadeInUp 0.8s ease;
+}
+
+.poem-box p {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  font-style: italic;
+  color: #f8e0e5;
+}
+
+.poem-box .hindi {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  font-family: 'Noto Sans Devanagari', 'Quicksand', sans-serif;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page content entrance */
+.page > * {
+  animation: fadeInUp 0.7s ease backwards;
+}
+.page > *:nth-child(1) { animation-delay: 0.1s; }
+.page > *:nth-child(2) { animation-delay: 0.2s; }
+.page > *:nth-child(3) { animation-delay: 0.3s; }
+.page > *:nth-child(4) { animation-delay: 0.4s; }
+.page > *:nth-child(5) { animation-delay: 0.5s; }
+.page > *:nth-child(6) { animation-delay: 0.6s; }
+.page > *:nth-child(7) { animation-delay: 0.7s; }
+.page > *:nth-child(8) { animation-delay: 0.8s; }
+.page > *:nth-child(9) { animation-delay: 0.9s; }
+.page > *:nth-child(10) { animation-delay: 1s; }
+.page .photo-grid img {
+  animation: fadeInUp 0.6s ease backwards;
+}
+.page .photo-grid img:nth-child(1) { animation-delay: 0.2s; }
+.page .photo-grid img:nth-child(2) { animation-delay: 0.35s; }
+.page .photo-grid img:nth-child(3) { animation-delay: 0.5s; }
+.page .photo-grid img:nth-child(4) { animation-delay: 0.65s; }
+.page .photo-grid img:nth-child(5) { animation-delay: 0.8s; }
+.page .photo-grid img:nth-child(6) { animation-delay: 0.95s; }
+.page .photo-grid img:nth-child(7) { animation-delay: 1.1s; }
+.page .photo-grid img:nth-child(8) { animation-delay: 1.25s; }
+.page .photo-grid img:nth-child(9) { animation-delay: 1.4s; }
+.page .photo-grid img:nth-child(10) { animation-delay: 1.55s; }
+.page .photo-grid img:nth-child(n+11) { animation-delay: 1.7s; }
+
+/* Photo grid - small */
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.photo-grid img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid rgba(196, 30, 58, 0.4);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.photo-grid img:hover {
+  transform: scale(1.05);
+}
+
+.photo-caption {
+  font-size: 0.85rem;
+  color: var(--valentine-pink);
+  margin-top: 0.5rem;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--valentine-pink-bright), var(--valentine-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 24px rgba(255, 107, 138, 0.3);
+}
+
+/* Popup overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup-overlay.show {
+  display: flex;
+}
+
+.popup-box {
+  background: linear-gradient(145deg, var(--valentine-dark), #2d0f14);
+  border: 2px solid var(--valentine-red);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 400px;
+  text-align: center;
+  animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-box h3 {
+  color: var(--valentine-pink);
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.popup-box p {
+  color: #f8e0e5;
+  margin-bottom: 1.5rem;
+}
+
+/* Next / Continue buttons */
+.btn-next {
+  background: linear-gradient(135deg, var(--valentine-red), var(--valentine-pink));
+  color: white;
+  margin-top: 1rem;
+}
+
+.btn-next:hover {
+  transform: scale(1.05);
+}
+
+/* Confetti or celebration - simple CSS */
+.celebration {
+  font-size: 3rem;
+  animation: pulse 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Page transition hint */
+.page-hint {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Footer */
+.site-footer {
+  margin-top: auto;
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(196, 30, 58, 0.2);
+  width: 100%;
+}
+.site-footer p {
+  font-size: 0.9rem;
+  color: rgba(255, 245, 247, 0.6);
+  margin: 0.25rem 0;
+}
+.site-footer .valentine-ask {
+  font-size: 1rem;
+  color: var(--valentine-pink);
+  margin-bottom: 0.5rem;
+}
+
+/* Three separate love cards on left/right sides (center stays for shayari & content) */
+.page-love-cards {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.page-love-card {
+  position: absolute;
+  max-width: 180px;
+  padding: 1rem 1.15rem;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(196, 30, 58, 0.35);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffd4dc;
+  text-align: center;
+  line-height: 1.35;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.page-love-card.card-1 { left: 1.5rem; top: 22%; }
+.page-love-card.card-2 { left: 1.5rem; top: 48%; transform: translateY(-50%); }
+.page-love-card.card-3 { right: 1.5rem; top: 42%; transform: translateY(-50%); }
+@media (max-width: 900px) {
+  .page-love-card { max-width: 150px; padding: 0.85rem 1rem; font-size: 0.9rem; }
+  .page-love-card.card-1 { left: 1rem; top: 18%; }
+  .page-love-card.card-2 { left: 1rem; top: 50%; }
+  .page-love-card.card-3 { right: 1rem; top: 78%; }
+}
+@media (max-width: 600px) {
+  .page-love-cards { display: none; }
+}
+
+/* Page with footer - use flex so footer sticks to bottom */
+body.has-footer {
+  display: flex;
+  flex-direction: column;
+}
+body.has-footer .page {
+  flex: 1;
+  min-height: auto;
+  padding-bottom: 1rem;
+}
+
+/* Circular text / image */
+.circle-wrap {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(196, 30, 58, 0.5);
+  box-shadow: 0 0 30px rgba(196, 30, 58, 0.3);
+  margin: 1.5rem auto;
+  animation: circleGlow 3s ease-in-out infinite;
+}
+.circle-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.circle-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 3px solid var(--valentine-pink);
+  background: rgba(26, 10, 14, 0.8);
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 1rem auto;
+  animation: fadeInUp 0.8s ease, circlePulse 4s ease-in-out infinite;
+}
+@keyframes circleGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(196, 30, 58, 0.3); }
+  50% { box-shadow: 0 0 45px rgba(255, 107, 138, 0.5); }
+}
+@keyframes circlePulse {
+  0%, 100% { transform: scale(1); border-color: var(--valentine-pink); }
+  50% { transform: scale(1.02); border-color: var(--valentine-red); }
+}
+
+/* Handwriting - visible, no fade-out. Red/pink theme */
+.handwriting-line {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 107, 138, 0.5);
+  opacity: 0;
+  animation: handwritingIn 5s ease-out forwards;
+  margin: 0.5rem 0;
+}
+.handwriting-line.delay-1 { animation-delay: 1.2s; }
+.handwriting-line.delay-2 { animation-delay: 2.8s; }
+.handwriting-line.delay-3 { animation-delay: 4.2s; }
+@keyframes handwritingIn {
+  0% { opacity: 0; transform: translateY(12px); }
+  25% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Memory spotlight - one bigger photo with text around / overlay */
+.memory-spotlight {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 320px;
+}
+.memory-spotlight .spotlight-img {
+  width: 100%;
+  max-width: 280px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 4px solid rgba(196, 30, 58, 0.4);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  display: block;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s ease, spotlightFloat 5s ease-in-out infinite;
+}
+.memory-spotlight .spotlight-caption {
+  position: relative;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: #f8e0e5;
+  padding: 0 1rem;
+  text-align: center;
+}
+.memory-spotlight .spotlight-quote {
+  font-size: 0.9rem;
+  color: var(--valentine-pink);
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+@keyframes spotlightFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Small memory grid - just photos, minimal labels */
+.memory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+.memory-grid img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid rgba(196, 30, 58, 0.35);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.memory-grid img:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 25px rgba(196, 30, 58, 0.25);
+}
+
+/* Shayari block - for real Urdu/Hindi verses */
+.shayari-block {
+  background: rgba(255,255,255,0.08);
+  border-left: 5px solid var(--valentine-red);
+  border-radius: 0 16px 16px 0;
+  padding: 1.5rem 1.75rem;
+  max-width: 560px;
+  margin: 1.5rem auto;
+  text-align: left;
+  animation: fadeInUp 0.8s ease, shayariGlow 4s ease-in-out infinite;
+  box-shadow: 0 4px 24px rgba(196, 30, 58, 0.15);
+}
+@keyframes shayariGlow {
+  0%, 100% { box-shadow: 0 4px 24px rgba(196, 30, 58, 0.15); border-left-color: var(--valentine-red); }
+  50% { box-shadow: 0 6px 32px rgba(255, 107, 138, 0.25); border-left-color: var(--valentine-pink); }
+}
+.shayari-block .urdu {
+  font-family: 'Noto Sans Devanagari', 'Urdu', serif;
+  font-size: 1.4rem;
+  line-height: 2;
+  color: #fff0f4;
+  font-weight: 500;
+}
+.shayari-block .transliteration {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.92);
+  margin-top: 0.6rem;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* No button hover message - shown every time you hover over No (CSS :hover + delay before button runs) */
+.no-hover-msg {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, var(--valentine-dark), #2d0f14);
+  border: 2px solid var(--valentine-pink);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #fff0f4;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.no-hover-msg.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-12px);
+}
+
+/* Home hero */
+.home-hero {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+.home-hero .hero-title {
+  font-size: 2.6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #fff 0%, var(--valentine-pink-bright) 40%, var(--valentine-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.8s ease, titleGlow 4s ease-in-out infinite;
+}
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 107, 138, 0.4)); }
+  50% { filter: drop-shadow(0 0 16px rgba(230, 57, 80, 0.6)); }
+}
+.home-shayari-wrap {
+  max-width: 540px;
+  margin: 2rem auto;
+}
+
+/* Positioned praise text - corners/sides, bold, animated */
+.praise-page-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 60vh;
+}
+.praise-float {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: #ffb3c1;
+  text-shadow: 0 0 20px rgba(255, 107, 138, 0.5), 0 2px 4px rgba(0,0,0,0.3);
+  animation: praiseGlow 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+  max-width: 180px;
+  text-align: center;
+}
+.praise-float.tl { top: 2rem; left: 2rem; text-align: left; }
+.praise-float.tr { top: 2rem; right: 2rem; text-align: right; }
+.praise-float.bl { bottom: 6rem; left: 2rem; text-align: left; }
+.praise-float.br { bottom: 6rem; right: 2rem; text-align: right; }
+.praise-float.ml { top: 45%; left: 1.5rem; transform: translateY(-50%); text-align: left; }
+.praise-float.mr { top: 45%; right: 1.5rem; transform: translateY(-50%); text-align: right; }
+@keyframes praiseGlow {
+  0%, 100% { opacity: 0.9; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.03); }
+}
+.praise-float.tl, .praise-float.tr, .praise-float.bl, .praise-float.br {
+  animation: praiseGlowCorner 3s ease-in-out infinite;
+}
+@keyframes praiseGlowCorner {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .page { padding: 1rem; }
+  .poem-box { padding: 1.25rem; }
+  .photo-grid img { width: 100px; height: 100px; }
+  .memory-grid img { width: 85px; height: 85px; }
+  .circle-wrap { width: 150px; height: 150px; }
+  .circle-text { width: 140px; height: 140px; font-size: 0.85rem; }
+  .home-hero .hero-title { font-size: 1.8rem; }
+  .shayari-block .urdu { font-size: 1.2rem; }
+  .shayari-block .transliteration { font-size: 1rem; }
+  .no-hover-msg { max-width: 180px; font-size: 0.85rem; }
+  .praise-float { font-size: 0.95rem; max-width: 120px; }
+  .praise-float.tl { top: 1.25rem; left: 1.25rem; }
+  .praise-float.tr { top: 1.25rem; right: 1.25rem; }
+  .praise-float.bl { bottom: 5rem; left: 1.25rem; }
+  .praise-float.br { bottom: 5rem; right: 1.25rem; }
+  .praise-float.ml, .praise-float.mr { display: none; }
+}
